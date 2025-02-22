@@ -18,7 +18,7 @@ import {
 import { deepMerge } from "lib/deep-merge";
 import type { Resume } from "lib/redux/types";
 
-export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 /**
@@ -29,25 +29,29 @@ export const useSaveStateToLocalStorageOnChange = () => {
     const unsubscribe = store.subscribe(() => {
       saveStateToLocalStorage(store.getState());
     });
-    return unsubscribe;
+    return () => unsubscribe(); // ✅ Safe cleanup
   }, []);
 };
 
+/**
+ * Hook to load initial state from local storage and merge it with the latest state.
+ */
 export const useSetInitialStore = () => {
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     const state = loadStateFromLocalStorage();
     if (!state) return;
+
     if (state.resume) {
-      // We merge the initial state with the stored state to ensure
-      // backward compatibility, since new fields might be added to
-      // the initial state over time.
+      // Merge stored state with the initial state to ensure backward compatibility
       const mergedResumeState = deepMerge(
         initialResumeState,
         state.resume
       ) as Resume;
       dispatch(setResume(mergedResumeState));
     }
+
     if (state.settings) {
       const mergedSettingsState = deepMerge(
         initialSettings,
@@ -55,5 +59,5 @@ export const useSetInitialStore = () => {
       ) as Settings;
       dispatch(setSettings(mergedSettingsState));
     }
-  }, []);
+  }, [dispatch]); // ✅ Include `dispatch` in the dependency array
 };

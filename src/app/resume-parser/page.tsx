@@ -25,10 +25,11 @@ const RESUME_EXAMPLES = [
     ),
   },
   {
-    fileUrl: "resume-example/resumeee-resume.pdf", // Updated file name
+    fileUrl: "resume-example/resumeee-resume.pdf",
     description: (
       <span>
-        Created with Resumeee resume builder -{" "} // Updated text
+        {/* Updated text */}
+        Created with Resumeee resume builder -{" "}
         <Link href="/resume-builder">Link</Link>
       </span>
     ),
@@ -36,6 +37,7 @@ const RESUME_EXAMPLES = [
 ];
 
 const defaultFileUrl = RESUME_EXAMPLES[0]["fileUrl"];
+
 export default function ResumeParser() {
   const [fileUrl, setFileUrl] = useState(defaultFileUrl);
   const [textItems, setTextItems] = useState<TextItems>([]);
@@ -69,8 +71,8 @@ export default function ResumeParser() {
               Resume Parser Playground
             </Heading>
             <Paragraph smallMarginTop={true}>
-              This playground showcases the Resumeee resume parser and its // Updated text
-              ability to parse information from a resume PDF. Click around the
+              {/* Updated text */}
+              This playground showcases the Resumeee resume parser and its ability to parse information from a resume PDF. Click around the
               PDF examples below to observe different parsing results.
             </Paragraph>
             <div className="mt-3 flex gap-3">
@@ -100,7 +102,7 @@ export default function ResumeParser() {
             <Paragraph>
               You can also{" "}
               <span className="font-semibold">add your resume below</span> to
-              access how well your resume would be parsed by similar Application
+              see how well it would be parsed by similar Application
               Tracking Systems (ATS) used in job applications. The more
               information it can parse out, the better it indicates the resume
               is well formatted and easy to read. It is beneficial to have the
